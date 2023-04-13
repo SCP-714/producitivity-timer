@@ -1,43 +1,26 @@
-const timerDisplay = document.getElementById('time-display');
-const startButton = document.getElementById('start-btn');
-const stopButton = document.getElementById('stop-btn');
-const resetButton = document.getElementById('reset-btn');
+var countDownDate = new Date('Jan 5, 2024 15:37:25').getTime();
 
-let timeRemaining = 25 * 60; // default 25 minutes
-let intervalId;
-let isRunning = false;
+// Update the count down every 1 second
+var x = setInterval(function() {
 
-function startTimer() {
-    if (!isRunning) {
-        isRunning = true;
-        intervalId = setInterval(() => {
-            timeRemaining--;
-            updateTimerDisplay();
-            if (timeRemaining <= 0) {
-                stopTimer();
-            }
-        }, 1000);
+    // Get today's date and time
+    var now = new Date().getTime();
+
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+
+    // Time calculations for days, hours, minutes and seconds
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Display the result in the element with id="demo"
+    document.getElementById('demo').innerHTML =hours + 'h '
+  + minutes + 'm ' + seconds + 's ';
+
+    // If the count down is finished, write some text
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById('demo').innerHTML = 'EXPIRED';
     }
-}
-
-
-function stopTimer() {
-    clearInterval(intervalId);
-    isRunning = false;
-}
-
-function resetTimer() {
-    stopTimer();
-    timeRemaining = 25 * 60; // reset to default 25 minutes
-    updateTimerDisplay();
-}
-
-function updateTimerDisplay() {
-    const minutes = Math.floor(timeRemaining / 60);
-    const seconds = timeRemaining % 60;
-    timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-}
-
-startButton.addEventListener('click', startTimer);
-stopButton.addEventListener('click', stopTimer);
-resetButton.addEventListener('click', resetTimer);
+}, 1000);
