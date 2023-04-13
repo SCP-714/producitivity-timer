@@ -20,6 +20,7 @@ function startTimer() {
     }
 }
 
+
 function stopTimer() {
     clearInterval(intervalId);
     isRunning = false;
